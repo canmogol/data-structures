@@ -6,7 +6,107 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
+
 public class ArrayListTester {
+
+    /**
+     * Phone number class for complex type testing
+     */
+    class PhoneNumber {
+        private Integer country;
+        private Integer city;
+        private Integer phone;
+        private Integer extension;
+
+        public PhoneNumber(Integer country, Integer city, Integer phone, Integer extension) {
+            this.country = country;
+            this.city = city;
+            this.phone = phone;
+            this.extension = extension;
+        }
+
+        public Integer getCountry() {
+            return country;
+        }
+
+        public void setCountry(Integer country) {
+            this.country = country;
+        }
+
+        public Integer getCity() {
+            return city;
+        }
+
+        public void setCity(Integer city) {
+            this.city = city;
+        }
+
+        public Integer getPhone() {
+            return phone;
+        }
+
+        public void setPhone(Integer phone) {
+            this.phone = phone;
+        }
+
+        public Integer getExtension() {
+            return extension;
+        }
+
+        public void setExtension(Integer extension) {
+            this.extension = extension;
+        }
+    }
+
+    /**
+     * User class for complex type testing
+     */
+    class User {
+
+        private String username;
+        private Date registerDate;
+        private Integer age;
+        private ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
+
+        public User(String username, Date registerDate, Integer age) {
+            this.username = username;
+            this.registerDate = registerDate;
+            this.age = age;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public Date getRegisterDate() {
+            return registerDate;
+        }
+
+        public void setRegisterDate(Date registerDate) {
+            this.registerDate = registerDate;
+        }
+
+        public Integer getAge() {
+            return age;
+        }
+
+        public void setAge(Integer age) {
+            this.age = age;
+        }
+
+        public ArrayList<PhoneNumber> getPhoneNumbers() {
+            return phoneNumbers;
+        }
+
+        public void setPhoneNumbers(ArrayList<PhoneNumber> phoneNumbers) {
+            this.phoneNumbers = phoneNumbers;
+        }
+    }
 
     // testing value
     private final String testValueOne = "Value One";
@@ -150,6 +250,78 @@ public class ArrayListTester {
         while (iterator.hasNext()) {
             String value = iterator.next();
             System.out.println("removing value = " + value);
+            iterator.remove();
+        }
+        // after removing only all values, size should be 0
+        Assert.assertEquals(list.getSize(), 0);
+    }
+
+    @Test
+    public void complexTypeIteratorTest() {
+
+        ArrayList<User> list = new ArrayList<>(3);
+
+        User user = new User("one", new Date(), 11);
+        user.getPhoneNumbers().add(new PhoneNumber(1, 1, 111, 1));
+        list.add(user);
+
+        user = new User("two", new Date(), 22);
+        user.getPhoneNumbers().add(new PhoneNumber(2, 2, 222, 2));
+        list.add(user);
+
+        user = new User("three", new Date(), 33);
+        user.getPhoneNumbers().add(new PhoneNumber(3, 3, 333, 3));
+        list.add(user);
+
+        user = new User("four", new Date(), 44);
+        user.getPhoneNumbers().add(new PhoneNumber(4, 4, 444, 4));
+        list.add(user);
+
+        user = new User("five", new Date(), 55);
+        user.getPhoneNumbers().add(new PhoneNumber(5, 5, 555, 5));
+        list.add(user);
+
+        // get iterator and remove all values
+        Iterator<User> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            User value = iterator.next();
+            System.out.println("removing user = " + value.getUsername());
+            iterator.remove();
+        }
+        // after removing only all values, size should be 0
+        Assert.assertEquals(list.getSize(), 0);
+    }
+
+    @Test
+    public void complexTypeReverseIteratorTest() {
+
+        ArrayList<User> list = new ArrayList<>(3);
+
+        User user = new User("one", new Date(), 11);
+        user.getPhoneNumbers().add(new PhoneNumber(1, 1, 111, 1));
+        list.add(user);
+
+        user = new User("two", new Date(), 22);
+        user.getPhoneNumbers().add(new PhoneNumber(2, 2, 222, 2));
+        list.add(user);
+
+        user = new User("three", new Date(), 33);
+        user.getPhoneNumbers().add(new PhoneNumber(3, 3, 333, 3));
+        list.add(user);
+
+        user = new User("four", new Date(), 44);
+        user.getPhoneNumbers().add(new PhoneNumber(4, 4, 444, 4));
+        list.add(user);
+
+        user = new User("five", new Date(), 55);
+        user.getPhoneNumbers().add(new PhoneNumber(5, 5, 555, 5));
+        list.add(user);
+
+        // get iterator and remove all values
+        Iterator<User> iterator = list.reverseIterator();
+        while (iterator.hasNext()) {
+            User value = iterator.next();
+            System.out.println("removing user = " + value.getUsername());
             iterator.remove();
         }
         // after removing only all values, size should be 0

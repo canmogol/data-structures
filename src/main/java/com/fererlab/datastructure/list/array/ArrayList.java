@@ -1,6 +1,5 @@
 package com.fererlab.datastructure.list.array;
 
-import com.fererlab.datastructure.iterator.Iterable;
 import com.fererlab.datastructure.iterator.Iterator;
 import com.fererlab.datastructure.util.Maybe;
 
@@ -9,17 +8,37 @@ import com.fererlab.datastructure.util.Maybe;
  *
  * @param <T> generic type of the value
  */
-public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, Iterable<T> {
+public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, ArrayIterable<T> {
 
     private int step;
-    private Object[] objects;
+    private T[] objects;
     private int size = 0;
-
 
     /**
      * internal iterator class
      */
     class InternalIterator extends Iterator<T> {
+
+        @Override
+        protected int getSize() {
+            return ArrayList.this.getSize();
+        }
+
+        @Override
+        protected Maybe<T> get(int index) {
+            return ArrayList.this.get(index);
+        }
+
+        @Override
+        protected void remove(int index) {
+            ArrayList.this.remove(index);
+        }
+    }
+
+    /**
+     * internal reverse iterator class
+     */
+    class InternalReversIterator extends Iterator<T> {
 
         /**
          * index will start from size
@@ -69,7 +88,7 @@ public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, Iterabl
 
     public ArrayList(int initialCapacity) {
         this.step = initialCapacity;
-        this.objects = new Object[step];
+        this.objects = createObjectArray(step);
     }
 
     @Override
@@ -79,12 +98,6 @@ public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, Iterabl
         }
         objects[size] = value;
         size++;
-    }
-
-    private void expand() {
-        Object[] temp = objects;
-        objects = new Object[objects.length + step];
-        System.arraycopy(temp, 0, objects, 0, temp.length);
     }
 
     @Override
@@ -109,8 +122,8 @@ public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, Iterabl
             int numberOfElementsToMove = size - index - 1;
             // this might be the last element, if so do nothing
             if (numberOfElementsToMove > 0) {
-                Object[] temp = objects;
-                objects = new Object[index + numberOfElementsToMove];
+                T[] temp = objects;
+                objects = createObjectArray(index + numberOfElementsToMove);
                 System.arraycopy(temp, 0, objects, 0, index);
                 System.arraycopy(temp, index + 1, objects, index, numberOfElementsToMove);
             }
@@ -134,7 +147,7 @@ public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, Iterabl
         for (int i = 0; i < size; i++) {
             objects[i] = null;
         }
-        objects = new Object[step];
+        objects = createObjectArray(step);
         size = 0;
     }
 
@@ -144,11 +157,15 @@ public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, Iterabl
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    public Iterator<T> reverseIterator() {
+        return new InternalReversIterator();
+    }
+
+    @Override
     public Maybe<T> get(int index) {
         Maybe<T> maybe = Maybe.empty();
         if (index >= 0 && index <= size - 1) {
-            T value = (T) objects[index];
+            T value = objects[index];
             maybe = Maybe.create(value);
         }
         return maybe;
@@ -169,6 +186,17 @@ public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, Iterabl
     @Override
     public int getSize() {
         return size;
+    }
+
+    private void expand() {
+        T[] temp = objects;
+        objects = createObjectArray(objects.length + step);
+        System.arraycopy(temp, 0, objects, 0, temp.length);
+    }
+
+    @SuppressWarnings("unchecked")
+    private T[] createObjectArray(int size) {
+        return (T[]) new Object[size];
     }
 
 }
