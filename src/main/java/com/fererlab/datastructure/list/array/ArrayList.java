@@ -10,6 +10,8 @@ import com.fererlab.datastructure.util.Maybe;
  */
 public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, ArrayIterable<T> {
 
+    private static final int INITIAL_CAPACITY = 10;
+
     private int step;
     private T[] objects;
     private int size = 0;
@@ -83,7 +85,7 @@ public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, ArrayIt
     }
 
     public ArrayList() {
-        this(10);
+        this(INITIAL_CAPACITY);
     }
 
     public ArrayList(int initialCapacity) {
