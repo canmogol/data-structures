@@ -2,6 +2,8 @@ package com.fererlab.datastructure;
 
 import com.fererlab.datastructure.iterator.Iterator;
 import com.fererlab.datastructure.list.array.ArrayList;
+import com.fererlab.datastructure.pojos.PhoneNumber;
+import com.fererlab.datastructure.pojos.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,104 +11,6 @@ import org.junit.Test;
 import java.util.Date;
 
 public class ArrayListTester {
-
-    /**
-     * Phone number class for complex type testing
-     */
-    class PhoneNumber {
-        private Integer country;
-        private Integer city;
-        private Integer phone;
-        private Integer extension;
-
-        public PhoneNumber(Integer country, Integer city, Integer phone, Integer extension) {
-            this.country = country;
-            this.city = city;
-            this.phone = phone;
-            this.extension = extension;
-        }
-
-        public Integer getCountry() {
-            return country;
-        }
-
-        public void setCountry(Integer country) {
-            this.country = country;
-        }
-
-        public Integer getCity() {
-            return city;
-        }
-
-        public void setCity(Integer city) {
-            this.city = city;
-        }
-
-        public Integer getPhone() {
-            return phone;
-        }
-
-        public void setPhone(Integer phone) {
-            this.phone = phone;
-        }
-
-        public Integer getExtension() {
-            return extension;
-        }
-
-        public void setExtension(Integer extension) {
-            this.extension = extension;
-        }
-    }
-
-    /**
-     * User class for complex type testing
-     */
-    class User {
-
-        private String username;
-        private Date registerDate;
-        private Integer age;
-        private ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
-
-        public User(String username, Date registerDate, Integer age) {
-            this.username = username;
-            this.registerDate = registerDate;
-            this.age = age;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public Date getRegisterDate() {
-            return registerDate;
-        }
-
-        public void setRegisterDate(Date registerDate) {
-            this.registerDate = registerDate;
-        }
-
-        public Integer getAge() {
-            return age;
-        }
-
-        public void setAge(Integer age) {
-            this.age = age;
-        }
-
-        public ArrayList<PhoneNumber> getPhoneNumbers() {
-            return phoneNumbers;
-        }
-
-        public void setPhoneNumbers(ArrayList<PhoneNumber> phoneNumbers) {
-            this.phoneNumbers = phoneNumbers;
-        }
-    }
 
     // testing value
     private final String testValueOne = "Value One";
