@@ -124,13 +124,12 @@ public final class ArrayList<T> implements QArrayList<T>, CArrayList<T>, ArrayIt
             int numberOfElementsToMove = size - index - 1;
             // this might be the last element, if so do nothing
             if (numberOfElementsToMove > 0) {
-                T[] temp = objects;
-                objects = createObjectArray(index + numberOfElementsToMove);
-                System.arraycopy(temp, 0, objects, 0, index);
-                System.arraycopy(temp, index + 1, objects, index, numberOfElementsToMove);
+                System.arraycopy(objects, index + 1, objects, index, numberOfElementsToMove);
             }
             // decrease size
             size--;
+            // set the last duplicated reference to null
+            objects[size] = null;
         }
     }
 
