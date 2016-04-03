@@ -1,5 +1,7 @@
 package com.fererlab.datastructure.stack;
 
+import com.fererlab.datastructure.collection.CCollection;
+import com.fererlab.datastructure.collection.QCollection;
 import com.fererlab.datastructure.iterator.Iterable;
 import com.fererlab.datastructure.iterator.Iterator;
 import com.fererlab.datastructure.list.linked.LinkedList;
@@ -21,7 +23,7 @@ import com.fererlab.datastructure.util.Maybe;
  * </code>
  * <p/>
  * So if you want to implement a pop method with that signature,
- * you may implement as follows, be mindful of the synchronization though.
+ * you may implement as follows, be mindful of the synchronization.
  * <p/>
  * <code>
  * <pre>
@@ -35,12 +37,27 @@ import com.fererlab.datastructure.util.Maybe;
  *
  * @param <T> parametrized type
  */
-public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
+public final class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
 
     /**
      * internal data structure of stack
      */
-    private LinkedList<T> list = new LinkedList<>();
+    private LinkedList<T> linkedList = new LinkedList<>();
+
+    /**
+     * Iterable
+     */
+    private Iterable<T> iterable = linkedList;
+
+    /**
+     * Query collection
+     */
+    private QCollection<T> queryCollection = linkedList;
+
+    /**
+     * Command collection
+     */
+    private CCollection<T> commandCollection = linkedList;
 
     /**
      * adds the value to the top
@@ -49,7 +66,7 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public void push(T value) {
-        list.add(value);
+        commandCollection.add(value);
     }
 
     /**
@@ -57,7 +74,7 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public void remove() {
-        remove(0);
+        this.remove(0);
     }
 
     /**
@@ -67,7 +84,7 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public void remove(int index) {
-        list.remove(index);
+        commandCollection.remove(index);
     }
 
     /**
@@ -77,7 +94,7 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public void remove(T value) {
-        list.remove(value);
+        commandCollection.remove(value);
     }
 
     /**
@@ -85,7 +102,7 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public void clear() {
-        list.clear();
+        commandCollection.clear();
     }
 
     /**
@@ -95,7 +112,18 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public Maybe<T> peek() {
-        return list.get(0);
+        return queryCollection.get(0);
+    }
+
+    /**
+     * returns the value at the index
+     *
+     * @param index int value position
+     * @return a maybe of value
+     */
+    @Override
+    public Maybe<T> get(int index) {
+        return queryCollection.get(index);
     }
 
     /**
@@ -105,12 +133,18 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public int getSize() {
-        return list.getSize();
+        return queryCollection.getSize();
     }
 
+    /**
+     * returns the size
+     *
+     * @param value value to search
+     * @return returns the size
+     */
     @Override
     public boolean contains(T value) {
-        return list.contains(value);
+        return queryCollection.contains(value);
     }
 
     /**
@@ -120,7 +154,7 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public boolean isEmpty() {
-        return list.getSize() == 0;
+        return queryCollection.getSize() == 0;
     }
 
     /**
@@ -130,6 +164,6 @@ public class Stack<T> implements QStack<T>, CStack<T>, Iterable<T> {
      */
     @Override
     public Iterator<T> iterator() {
-        return list.iterator();
+        return iterable.iterator();
     }
 }

@@ -85,6 +85,9 @@ public class LinkedListTester {
         list.add(testValueThree);
         Assert.assertEquals(list.getSize(), 3);
 
+        // print all values
+        list.forEach(System.out::println);
+
         // remove index greater than zero, this should NOT raise an exception!!!
         list.remove(99);
     }

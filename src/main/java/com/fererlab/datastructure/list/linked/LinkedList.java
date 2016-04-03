@@ -69,7 +69,7 @@ public final class LinkedList<T> implements QLinkedList<T>, CLinkedList<T>, Iter
          */
 
         // first create a node for this value
-        CNode<T> node = new Node<T>();
+        CNode<T> node = new Node<>();
         node.setValue(value);
 
         // than add this node to list

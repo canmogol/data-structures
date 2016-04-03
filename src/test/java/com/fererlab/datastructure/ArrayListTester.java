@@ -92,6 +92,9 @@ public class ArrayListTester {
         list.add(testValueSix);
         Assert.assertEquals(list.getSize(), 6);
 
+        // print all values
+        list.forEach(System.out::println);
+
         // remove index greater than zero, this should NOT raise an exception!!!
         list.remove(99);
 

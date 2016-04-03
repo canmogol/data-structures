@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class StackTester {
@@ -90,6 +91,9 @@ public class StackTester {
         Assert.assertEquals(stack.getSize(), 5);
         stack.push(testValueSix);
         Assert.assertEquals(stack.getSize(), 6);
+
+        // print all values
+        stack.forEach(System.out::println);
 
         // remove index greater than zero, this should NOT raise an exception!!!
         stack.remove(99);
@@ -193,6 +197,61 @@ public class StackTester {
         }
         // after removing only all values, size should be 0
         Assert.assertEquals(stack.getSize(), 0);
+    }
+
+    @Test
+    public void postFixCalculatorTest() {
+        /**
+         * for each token
+         *      if token is integer
+         *          push token to stack
+         *      else if token is an operation
+         *          get and remove (pop) right side value
+         *          get and remove (pop) left side value
+         *          evaluate operation
+         *          push result back
+         * next
+         *
+         *  5 + 6 * 7 - 1
+         *  5 6 7 * + 1 -
+         */
+        Stack<Integer> stack = new Stack<>();
+
+        Object[] tokens = new Object[]{5, 6, 7, "*", "+", 1, "-"};
+        for (Object token : tokens) {
+            if (token instanceof Integer) {
+                Integer currentNumber = (Integer) token;
+                stack.push(currentNumber);
+            } else {
+
+                Integer rightSideValue = stack.peek().get();
+                stack.remove();
+
+                Integer leftSideValue = stack.peek().get();
+                stack.remove();
+
+                Integer result = null;
+                switch (String.valueOf(token)) {
+                    case "*":
+                        result = leftSideValue * rightSideValue;
+                        break;
+                    case "/":
+                        result = leftSideValue / rightSideValue;
+                        break;
+                    case "+":
+                        result = leftSideValue + rightSideValue;
+                        break;
+                    case "-":
+                        result = leftSideValue - rightSideValue;
+                        break;
+                }
+                stack.push(result);
+            }
+        }
+        Assert.assertEquals(stack.getSize(), 1);
+        Assert.assertNotNull(stack.peek().get());
+        System.out.println("calculation= " + Arrays.toString(tokens));
+        System.out.println("result = " + stack.peek().get());
     }
 
 }

@@ -1,6 +1,8 @@
 package com.fererlab.datastructure.stack;
 
-public interface CStack<T> {
+import com.fererlab.datastructure.collection.QCollection;
+
+public interface CStack<T> extends QCollection<T> {
 
     void push(T value);
 

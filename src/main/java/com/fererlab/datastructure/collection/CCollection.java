@@ -12,7 +12,6 @@ public interface CCollection<T> {
      */
     void add(T value);
 
-
     /**
      * removes the value at the index
      *
@@ -20,14 +19,12 @@ public interface CCollection<T> {
      */
     void remove(int index);
 
-
     /**
      * remove all the values with matching value
      *
      * @param value object value
      */
     void remove(T value);
-
 
     /**
      * clears the collection, sets size to 0, removes all references and sets values to null
